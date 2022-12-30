@@ -5,6 +5,8 @@
   "version": "3.0.0",
   "author": "zoomkoding <zoomkoding@gmail.com>",
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.1.0",
     "@mui/material": "^5.1.0",
     "gatsby": "^4.9.3",
@@ -36,8 +38,11 @@
     "typeface-montserrat": "^1.1.13"
   },
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "gh-pages": "^3.2.3",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "react-refresh": "^0.14.0",
+    "source-map": "^0.7.4"
   },
   "keywords": [
     "gatsby",
