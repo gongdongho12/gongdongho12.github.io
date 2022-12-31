@@ -7,9 +7,9 @@ function PageFooter({ author, githubUrl }) {
       <p className="page-footer">
         © {new Date().getFullYear()}
         &nbsp;
-        <a href={githubUrl}>{author}</a>
+        <a href={githubUrl} target="_blank">{author}</a>
         &nbsp;powered by
-        <a href="https://github.com/zoomKoding/zoomkoding-gatsby-blog">
+        <a href="https://github.com/zoomKoding/zoomkoding-gatsby-blog" target="_blank">
           &nbsp;zoomkoding-gatsby-blog
         </a>
       </p>
