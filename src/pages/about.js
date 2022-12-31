@@ -38,6 +38,7 @@ export const pageQuery = graphql`
           }
           social {
             github
+            resume
             linkedIn
             email
           }
