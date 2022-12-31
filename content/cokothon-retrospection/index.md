@@ -86,4 +86,5 @@ categories: 해커톤 회고
 ## 산출물
 - [깃허브](https://github.com/cokothon-no-front)
 - [아이디어 노트](https://www.notion.so/donghodev/No-Front-f7a60b1977624e08b5fcd12774e84437)
+- [레이아웃 구성](https://www.figma.com/file/JBpkf3GroUKdq8vfb136DL/Untitled?node-id=0%3A1)
 - [발표자료](https://docs.google.com/presentation/d/11uGcmm_m9dsUCHV9_mTS6DZh9UIaBzH-p-UtenMRack/edit?usp=sharing)
