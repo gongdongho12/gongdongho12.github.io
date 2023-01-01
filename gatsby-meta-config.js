@@ -19,7 +19,7 @@ module.exports = {
     },
     social: {
       github: `https://github.com/gongdongho12`,
-      resume: `http://resume.dongholab.com/`,
+      resume: `https://resume.dongholab.com/`,
       linkedIn: `https://www.linkedin.com/in/dongholab/`,
       email: `gongdongho12@gmail.com`,
     },
