@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
+    "gatsby-plugin-cname": "^1.0.0",
     "gh-pages": "^3.2.3",
     "prettier": "2.2.1",
     "react-refresh": "^0.14.0",

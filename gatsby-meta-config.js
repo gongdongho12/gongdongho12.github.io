@@ -2,7 +2,7 @@ module.exports = {
   title: `DonghoLab`,
   description: `동호의 개발 블로그`,
   language: `ko`, // `ko`, `en` => currently support versions for Korean and English
-  siteUrl: `https://gongdongho12.github.io`,
+  siteUrl: `https://blog.dongholab.com`,
   ogImage: `/og-image.png`, // Path to your in the 'static' folder
   comments: {
     utterances: {

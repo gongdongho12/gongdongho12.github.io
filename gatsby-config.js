@@ -6,6 +6,7 @@ module.exports = {
   siteMetadata: metaConfig,
 
   plugins: [
+    'gatsby-plugin-cname',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
