@@ -1,7 +1,8 @@
 import React, { createRef, useEffect, useRef } from 'react';
+import { getValueFromLocalStorage } from '../../utils/localStorage';
 
 const src = 'https://utteranc.es/client.js';
-const branch = 'master';
+const branch = 'main';
 
 function Utterances({ repo, path }) {
   const rootElm = createRef();
@@ -9,14 +10,14 @@ function Utterances({ repo, path }) {
 
   useEffect(() => {
     if (!rootElm.current || isUtterancesLoaded.current) return;
-    const storedIsDarkMode = localStorage.getItem('isDarkMode');
+    const isDarkMode = getValueFromLocalStorage('isDarkMode');
 
     const utterances = document.createElement('script');
     const utterancesConfig = {
       src,
       repo,
       branch,
-      theme: JSON.parse(storedIsDarkMode) ? 'photon-dark' : 'github-light',
+      theme: isDarkMode ? 'photon-dark' : 'github-light',
       label: 'comment',
       async: true,
       'issue-term': 'pathname',
