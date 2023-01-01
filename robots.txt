@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: https://blog.dongholab.com/sitemap/sitemap-index.xml
+Host: https://blog.dongholab.com
