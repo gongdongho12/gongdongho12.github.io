@@ -1,7 +1,7 @@
 import React, { createRef, useRef, useEffect } from 'react';
 import { getValueFromLocalStorage } from '../../utils/localStorage';
 
-const src = 'https://utteranc.es/client.js';
+const url = 'https://utteranc.es';
 const branch = 'main';
 
 const getTheme = () => getValueFromLocalStorage('isDarkMode') ? 'photon-dark' : 'github-light'
@@ -11,7 +11,7 @@ const resetChangeListener = () => {
   utterances?.postMessage({
     type: 'set-theme',
     theme: getTheme()
-  }, 'https://utteranc.es');
+  }, url);
 }
 
 function Utterances({ repo, path }) {
@@ -22,7 +22,7 @@ function Utterances({ repo, path }) {
     if (!rootElm.current || isUtterancesLoaded.current) return;
     const utterances = document.createElement('script');
     const utterancesConfig = {
-      src,
+      src: `${url}/client.js`,
       repo,
       branch,
       theme: getTheme(),
