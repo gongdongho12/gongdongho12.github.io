@@ -4,16 +4,14 @@ import { getValueFromLocalStorage } from '../../utils/localStorage';
 const src = 'https://utteranc.es/client.js';
 const branch = 'main';
 
-const getTheme = (isDarkMode) => isDarkMode ? 'photon-dark' : 'github-light'
+const getTheme = () => getValueFromLocalStorage('isDarkMode') ? 'photon-dark' : 'github-light'
 
 const resetChangeListener = () => {
-  const isDarkMode = getValueFromLocalStorage('isDarkMode');
-  const message = {
-    type: 'set-theme',
-    theme: getTheme(isDarkMode)
-  };
   const utterances = document.querySelector('iframe')?.contentWindow;
-  utterances?.postMessage(message, 'https://utteranc.es');
+  utterances?.postMessage({
+    type: 'set-theme',
+    theme: getTheme()
+  }, 'https://utteranc.es');
 }
 
 function Utterances({ repo, path }) {
@@ -22,13 +20,12 @@ function Utterances({ repo, path }) {
 
   useEffect(() => {
     if (!rootElm.current || isUtterancesLoaded.current) return;
-    const isDarkMode = getValueFromLocalStorage('isDarkMode');
     const utterances = document.createElement('script');
     const utterancesConfig = {
       src,
       repo,
       branch,
-      theme: getTheme(isDarkMode),
+      theme: getTheme(),
       label: 'comment',
       async: true,
       'issue-term': 'pathname',
