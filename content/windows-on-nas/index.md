@@ -127,3 +127,20 @@ wsl --set-default-version 2
 
 ## Docker Desktop 설치
 WSL 설치가 완료되면 [Docker Desktop](https://www.docker.com/products/docker-desktop/)을 설치합니다 
+
+## Portainer 설치 from Ubuntu with WSL2
+> Portainer는 도커를 웹 상에서 관리할 수 있는 서비스이다
+> 시X로지도 되는 기능을 손쉽게 WSL 위에 설치해본다
+
+[참고(Portainer CE with Docker on WSL)](https://docs.portainer.io/start/install-ce/server/docker/wsl)
+
+1. Ubuntu on WSL을 `Win + S`늘 누르고 `Ubuntu`를 검색하여 실행한다
+2. 도커볼륨을 생성한다
+```bash
+docker volume create portainer_data
+```
+3. Portainer의 이미지를 다운받아 실행한다
+```bash
+docker run -d -p 8000:8000 -p 9000:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+```
+4. [https://localhost:9000](https://localhost:9000)링크에 접속한 뒤 확인해본다
