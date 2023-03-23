@@ -128,6 +128,50 @@ wsl --set-default-version 2
 ## Docker Desktop 설치
 WSL 설치가 완료되면 [Docker Desktop](https://www.docker.com/products/docker-desktop/)을 설치합니다 
 
+## 도커를 통해 HTTPS 사용하기
+사용할 서비스는 [acme-companion](https://github.com/nginx-proxy/acme-companion)    
+위 이미지는 nginx 이미지에 acme 인증서를 연결하여 HTTP 연결을 HTTPS 연결로 커넥팅 해주는 기능을 포함하고 있다    
+따라서 acme 인증서를 별도로 실행해 주어야 합니다
+![acme-companion](imgs/acme-companion.png)
+
+### nginx 인증서 프록시 컨테이너
+리버스 프록시로 80, 443번 포트를 연결해준다
+```bash
+docker run --detach \
+    --name nginx-proxy \
+    --publish 80:80 \
+    --publish 443:443 \
+    --volume certs:/etc/nginx/certs \
+    --volume vhost:/etc/nginx/vhost.d \
+    --volume html:/usr/share/nginx/html \
+    --volume /var/run/docker.sock:/tmp/docker.sock:ro \
+    nginxproxy/nginx-proxy
+```
+
+### 인증서 업데이터 볼륨 컨테이너
+아래 명령어에서 `[본인 이메일 주소]`는 본인 이메일로 업데이트 해주는 것이 중요하다 (인증서 만료 체크용)    
+`--volumes-from`을 통해서 위에 생성한 `nginx-proxy`에 연결하여 let's encrypt 인증서를 볼륨으로 매핑해준다
+```bash
+docker run --detach \
+    --name nginx-proxy-acme \
+    --volumes-from nginx-proxy \
+    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+    --volume acme:/etc/acme.sh \
+    --env "DEFAULT_EMAIL=[본인 이메일 주소]" \
+    nginxproxy/acme-companion
+```
+
+## 도메인의 서브도메인으로 와일드카드 등록하기
+저는 서비스중에 인지도 있는 서비스를 추천합니다
+- 국내 [**dnszi**](https://dnszi.com/)
+- 글로벌 [**cloudflare**](https://www.cloudflare.com/)
+을 추천드립니다
+
+저는 그래도 글로벌한 **CloudFlare**를 추천드립니다    
+`dns 설정 > Add record`를 이용하여 추가하면 되는데 제 나스의 subdomain은 `*.remote.[내 도메인 주소]`의 구조로 지정했습니다    
+그리고 본인의 아이피오하 Proxy 없이 DNS Only로 지정하여 추가하면 아래와 같은 형태가 노출됩니다
+> ![cloudflare-dns](imgs/cloudflare-dns.png)
+
 ## Portainer 설치 from Ubuntu with WSL2
 > Portainer는 도커를 웹 상에서 관리할 수 있는 서비스이다
 > 시X로지도 되는 기능을 손쉽게 WSL 위에 설치해본다
@@ -140,7 +184,87 @@ WSL 설치가 완료되면 [Docker Desktop](https://www.docker.com/products/dock
 docker volume create portainer_data
 ```
 3. Portainer의 이미지를 다운받아 실행한다
+   1. 먼저 아래 명령어에서 `[원하는 도메인 주소]`
 ```bash
-docker run -d -p 8000:8000 -p 9000:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+docker run -d -p 8000:8000 -p 9000:9000 \
+      --name portainer \
+      -e "VIRTUAL_HOST=[원하는 도메인 주소]" \
+      -e "VIRTUAL_PORT=9000" \
+      -e "LETSENCRYPT_HOST=[원하는 도메인 주소]" \
+      -e "LETSENCRYPT_EMAIL=[본인 이메일 주소]" \
+      --restart=always \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v portainer_data:/data \
+      portainer/portainer-ce:latest
 ```
-4. [https://localhost:9000](https://localhost:9000)링크에 접속한 뒤 확인해본다
+1. [https://localhost:9000](https://localhost:9000)링크에 접속한 뒤 확인해본다
+2. 추가적으로 세팅이 끝나면 본인이 입력한 도메인 주소로 접속해본다
+
+# 부록
+### 윈도우에서 Cron 기능 활용하기
+파워쉘이나 윈도우 배치파일을 윈도우 기본기능인 `작업 스케쥴러`에 등록할 수 있습니다    
+https://docs.active-directory-wp.com/Usage/How_to_add_a_cron_job_on_Windows/Scheduled_tasks_and_cron_jobs_on_Windows/index.html    
+이 기능을 활용하면 특정 시간대에 도커 재시작 등의 명령을 줄 수 있습니다
+
+### 토렌트 서버 추가하기
+[**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다    
+이번에도 HTTPS 연결을 위해 추가적인 환경변수를 입력하겠습니다
+```bash
+docker run -d \
+  --name=torrent \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Seoul \
+  -e WEBUI_PORT=8888 \
+  -e "VIRTUAL_HOST=[원하는 도메인 주소]" \
+  -e "VIRTUAL_PORT=8080" \
+  -e "LETSENCRYPT_HOST=[원하는 도메인 주소]" \
+  -e "LETSENCRYPT_EMAIL=[본인 이메일 주소]" \
+  -p 8888:8888 \
+  -p 6881:6881 \
+  -p 6881:6881/udp \
+  -v [원하는 WSL 내 config 경로]:/config \
+  -v [원하는 WSL 내 downloads 경로]:/downloads \
+  --restart always \
+  linuxserver/qbittorrent:latest
+```
+
+### 마인크래프트 서버 추가하기
+[**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다
+```bash
+docker run -d -it --name mincraft \
+  -v [원하는 WSL 내 config 경로]:/data \
+  -p 25565:25565 \
+  -e EULA=TRUE \
+  -e MEMORY=2G \
+  itzg/minecraft-server
+```
+
+### 마크 백업 기능
+아래 명령어는 /backups 폴더에 tar파일로 매일(1d)마다 백업합니다
+```bash
+docker run \
+-e SRC_DIR=/backups \
+-e BACKUP_INTERVAL=1d \
+--name=mcbackup itzg/mc-backup
+```
+
+추가적으로 고급 세팅을 위해서는 [이 글](https://jizard.tistory.com/455)을 참고해주시면 감사하겠습니다
+
+### Docker CI/CD 추천 툴
+[Coolify](https://coolify.io/)
+[CapRover · Free and Open Source PaaS!](https://caprover.com/)
+
+# 결론
+**NAS(Network Attached Storage)는 사서 쓰세요**    
+그래도 본인이 진성 공돌이라면 내 입맛대로 구성할 수 있다는 점의 매력을 느낄 수 있을 것이고    
+성능이 꽤 준수한 개발 서버로 손쉽게 둔갑할 수 있을겁니다
+
+#### 참고자료
+위 글을 작성하기 위해 참고한 글입니다
+- [윈도우 10 FTP 서버 설정](https://takim0070.tistory.com/10)
+- [윈도우11. 원격으로 컴퓨터를 사용하는 방법. 원격 데스크톱.](https://onna.kr/982)
+- [Mount And Access Hard Drives In Windows Subsystem For Linux (WSL)](https://linuxnightly.com/mount-and-access-hard-drives-in-windows-subsystem-for-linux-wsl/)
+- [Windows 2019 서버 FTP 글자 깨짐 현상 해결 방법](https://darkdoyo.tistory.com/56)
+- [[Synology NAS] 도커 (Docker)로 게임 서버 구축하기 #3 - 마인크래프트 자바 에디션 spigot 서버](https://qzqz.tistory.com/812)
+- [도커 Docker 에 큐빗토렌트 qBittorrent 다운로드 서버 만들기 - 우분투](https://comeinsidebox.com/ubuntu-docker-qbittorrent-server/)
