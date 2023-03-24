@@ -21,28 +21,33 @@ categories: 윈도우 도커
 
 1. 설정 `Win + I`을 실행하고 왼쪽 메뉴에서 `시스템`을 클릭합니다
 2. 목록에서 `원격 테스크톱`을 선택합니다
+![시스템 > 원격 데스크탑](imgs/system-remote-desktop.png)
 3. 내부에서 원격 데스크톱 박스의 토글버튼을 클릭하여 활성화합니다
+![원격 데스크톱 토글](imgs/toggle-remote-desktop.png)
 4. 이후 윈도우 검색에서 `제어판`을 실행합니다
 5. 제어판에서 `시스템 및 보안` 항목에 들어가 `시스템 > 원격 엑세스 허용`을 클릭해 줍니다
 6. 나온 팝업에서 `이 컴퓨터에 대한 원격 지원 연결 허용`을 체크하고 원격 데스크톱 상자에서는 `이 컴퓨터에 대한 원격 연결 허용`과 `네트워크 수준 인증을 사용하여 원격 데스크톱을 실행하는 컴퓨터에서만 연결 허용(권장)`을 체크하고 확인 버튼을 클릭합니다
 7. 이제는 원격으로 접속할 컴퓨터에서 `Win + S`키를 눌러 `원격 데스크톱 연결`을 검색해 실행합니다
-8. 연결할 컴퓨터의 이름(아이피나 도메인주소)을 입력하고 사용자 이름(Microsoft 계정인 경우 별도로 처리)를 입력하여 로그인합니다
-9. 정상적으로 접속되면 완료
-10. 연결 속도가 느린 경우 [이 글](https://m.blog.naver.com/toruin84/222875583683)을 참조해 주세요
+![원격 데스크톱 연결](imgs/remote-desktop-connect.png)
+1. 연결할 컴퓨터의 이름(아이피나 도메인주소)을 입력하고 사용자 이름(Microsoft 계정인 경우 자격증명으로 로그인)를 입력하여 로그인합니다
+2.  정상적으로 접속되면 완료
+![원격 데스크톱 연결 결과](imgs/remote-desktop-result.png)
+1.  연결 속도가 느린 경우 [이 글](https://m.blog.naver.com/toruin84/222875583683)을 참조해 주세요
 
 ## 윈도우 자동로그인 설정
-나스를 켰을때 로그인을 위해 직접 화면을 연결해야 하는 상황을 방지하기 위해 자동로그인을 설정합니다
-
-윈도우 10 2004 버전 이후와 이전으로 나뉘는데 이전 버전이라면 아래와 같습니다.
-
+나스를 켰을때 로그인을 위해 직접 화면을 연결해야 하는 상황을 방지하기 위해 자동로그인을 설정합니다    
+윈도우 10 2004 버전 이후와 이전으로 나뉘는데 이전 버전이라면 아래와 같습니다.    
 `Win + R`로 `netplwiz` 를 입력하고 계정을 선택한 뒤 `사용자 이름과 암호를 입력해야 이 컴퓨터를 사용할 수 있음`을 체크합니다
+![사용자 이름과 암호를 입력해야 이 컴퓨터를 사용할 수 있음](imgs/user-account-check.png)
 
 ### 만약 체크박스가 보이지 않는다면
 `Win + R`로 `regedit` 를 입력한 뒤 레지스트리 편집기가 열리면 `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device`을 들어가서 `DevicePasswordLessBuildVersion` 값을 확인합니다
+![레지스트리 편집기](imgs/registry-allow-user.png)
 
 만약 값이 없다면, 새로 생성을 하고 기존에 값이 있다면 16진수 `0x00000002`인 값 데이터를 `2`로 업데이트 합니다
+![레지스트리 값 2로](imgs/change-registry-value-two.png)
 
-다시 자동로그인 설정으로 들어가게 되면 체크박스가 보이고 이름과 사용자명을 클릭하여 로그인 합니다
+다시 자동로그인 설정으로 들어가게 되면 체크박스가 보이고 이름과 사용자명을 클릭하여 로그인 합니다 **(맨 위 사진 그대로)**
 
 ## 윈도우 10 FTP 설정
 ```
@@ -51,19 +56,24 @@ FTP 또한 Docker를 활용하여 설정이 가능하지만,
 윈도우 파일시스템을 베이스로 전송하기에 좀 더 효율적이다고 판단했습니다
 ```
 윈도우의 검색을 활용하여 `기능`을 검색하면 `Windows 기능 켜기/끄기`를 클릭합니다
+![윈도우 기능 켜기/끄기](imgs/search-windows-function.png)
 
 우선 선택해 줄 것이 `인터넷 정보 서비스 > FTP 서버 > FTP 서비스` 그리고 `인터넷 정보 서비스 > 웹 관리 도구 > IIS 관리 콘솔`을 체크해 줍니다
+![FTP 및 IIS 활성화](imgs/windows-function-ftp-and-iis.png)
 
 두개가 활성화되면 IIS 관리자를 실행합니다
+![IIS 관리자 검색](imgs/search-iis.png)
 
 ### FTP 사이트 추가
 좌측 Desktop 항목에서 `사이트`를 우클릭으로 클릭한 뒤 `FTP 사이트 추가...` 기능을 선택합니다
+![FTP 사이트 추가](imgs/add-ftp.png)
 
 사이트 정보를 입력하게 되는데 사이트 이름은 그냥 `NAS_FTP`로 지정하고 실제 경로는 지정하고 싶은 디렉토리를 선택합니다
 저는 D드라이브의 data 디렉토리를 선택하여 쉐어했습니다
 > 추후 영상이나 큰 파일을 쉐어할 수 있도록 큰 사이즈의 볼륨으로 잡아주는 것이 좋은것 같더라구요
 > 
 > 추가적으로 WSL이 고도화 됨에 따라 여러 윈도우의 볼륨도 타 드라이브를 선택할 수 있습니다
+![FTP 생성 모달1](imgs/add-ftp-step1.png)
 
 #### 바인딩 및 SSL 설정
 바인딩은 모든 대상으로 포트는 기본값인 21로 지정합니다
@@ -71,6 +81,7 @@ FTP 또한 Docker를 활용하여 설정이 가능하지만,
 그리고 항상 FTP가 실행되어야 24시간 활용될 수 있기에 `자동으로 FTP 사이트 시작`을 선택합니다
 
 SSL은 저희가 간의로 사용하기에는 세팅 과정이 더 복잡해질 수 있기에 `SSL 사용 안 함`을 선택하고 다음으로 넘어갑니다
+![FTP 생성 모달2](imgs/add-ftp-step2.png)
 
 #### 인증 정보 설정
 인증은 `기본`을 선택하고 엑세스 허용에 `모든 사용자`를 지정합니다
@@ -84,17 +95,24 @@ SSL은 저희가 간의로 사용하기에는 세팅 과정이 더 복잡해질 
 `사용자 이름`은 FTP의 로그인 ID에 해당하고 `전체 이름`은 계정의 고유 키, `암호, 암호 확인`은 FTP의 로그인 비밀번호에 해당하기에 원하는 값을 입력한다
 
 암호 사용 기간 제한 없음을 클릭하여 추후에 만료를 방지한 이후 `만들기`로 생성합니다
+![FTP 생성 모달3](imgs/add-ftp-step3.png)
 
 #### 방화벽 허용
-이후 윈도우 검색에 `Windows Defender`를 검색한 뒤 좌측의 인바운드 규칙을 선택하여 `FTP 서버 보안(FTP SSL 트래픽 인)`, `FTP 서버 수동`, `FTP 서버(FTP 트래픽 인)`을 규칙 사용합니다
+이후 윈도우 검색에 `고급 보안이 포함된 Windows Defender 방화벽`를 검색하여 실행합니다
+![고급 보안이 포함된 Windows Defender 방화벽](imgs/search-windows-defender-advaced.png)
+좌측의 인바운드 규칙을 선택하여 `FTP 서버 보안(FTP SSL 트래픽 인)`, `FTP 서버 수동`, `FTP 서버(FTP 트래픽 인)`을 규칙 사용합니다
+![방화벽 FTP 허용](imgs/windows-defender-ftp-allow-all.png)
 
 #### 서비스 시작
 윈도우 검색에 `service`를 검색하여 서비스 앱을 실행합니다
+![서비스 검색](imgs/search-service.png)
 
-`Microsoft FTP Service`을 우클릭으로 선택한 뒤 `다시 시작`을 클릭하여 이전에 설정했던 내용들을 반영하여 재시작해줍니다
+`Microsoft FTP Service`을 우클릭으로 선택한 뒤 꺼져있다면 `시작`을 이미 실행되어있다면 `다시 시작`을 클릭하여 이전에 설정했던 내용들을 반영하여 재시작해줍니다
+![FTP 서비스 시작](imgs/service-ftp-start.png)
 
 이후 모바일 기기나 PC에서 FTP로 접근해 봅니다
 > 저는 주로 PC에서는 [파일질라](https://filezilla-project.org/download.php?type=client)라는 오픈소스 소프트웨어를 추천합니다
+![FTP 실제 연결](imgs/ftp-real-connect.png)
 
 ## WSL2로 우분투 설치
 ```
@@ -119,14 +137,17 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 ```ps1
 wsl --set-default-version 2
 ```
+![파워쉘 WSL2](imgs/powershell-with-wsl2.png)
 
 ### WSL2로 우분투를 설치
 [Microsoft Store](https://apps.microsoft.com/store/detail/ubuntu/9PDXGNCFSCZV)에서 `Ubuntu`를 검색한 뒤 설치합니다
+![MS스토어 우분투](imgs/ms-store-ubuntu.png)
 
 자동으로 WSL2 베이스로 설치가 됩니다
 
 ## Docker Desktop 설치
-WSL 설치가 완료되면 [Docker Desktop](https://www.docker.com/products/docker-desktop/)을 설치합니다 
+WSL 설치가 완료되면 [Docker Desktop](https://www.docker.com/products/docker-desktop/)을 설치합니다
+![도커 데스크탑 설치](imgs/visit-dockerdesktop-install.png)
 
 ## 도커를 통해 HTTPS 사용하기
 사용할 서비스는 [acme-companion](https://github.com/nginx-proxy/acme-companion)    
@@ -160,6 +181,7 @@ docker run --detach \
     --env "DEFAULT_EMAIL=[본인 이메일 주소]" \
     nginxproxy/acme-companion
 ```
+![Nginx Proxy with acme](imgs/docker-nginx-proxy-with-acme.png)
 
 ## 도메인의 서브도메인으로 와일드카드 등록하기
 저는 서비스중에 인지도 있는 서비스를 추천합니다
@@ -183,7 +205,7 @@ docker run --detach \
 ```bash
 docker volume create portainer_data
 ```
-3. Portainer의 이미지를 다운받아 실행한다
+1. Portainer의 이미지를 다운받아 실행한다
    1. 먼저 아래 명령어에서 `[원하는 도메인 주소]`
 ```bash
 docker run -d -p 8000:8000 -p 9000:9000 \
@@ -197,8 +219,11 @@ docker run -d -p 8000:8000 -p 9000:9000 \
       -v portainer_data:/data \
       portainer/portainer-ce:latest
 ```
+![create portainer](imgs/create_portainer.png)
 1. [https://localhost:9000](https://localhost:9000)링크에 접속한 뒤 확인해본다
-2. 추가적으로 세팅이 끝나면 본인이 입력한 도메인 주소로 접속해본다
+![portainer local](imgs/portainer-local.png)
+2. 추가적으로 세팅이 끝나면 본인이 입력한 도메인 주소로 접속해본다\
+![portainer remote](imgs/remote-portainer.png)
 
 # 부록
 ### 윈도우에서 Cron 기능 활용하기
@@ -208,7 +233,8 @@ https://docs.active-directory-wp.com/Usage/How_to_add_a_cron_job_on_Windows/Sche
 
 ### 토렌트 서버 추가하기
 [**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다    
-이번에도 HTTPS 연결을 위해 추가적인 환경변수를 입력하겠습니다
+이번에도 HTTPS 연결을 위해 추가적인 환경변수를 입력하겠습니다    
+아래와 같이 `WEBUI_PORT`와 `VIRTUAL_PORT`값은 같아야 합니다
 ```bash
 docker run -d \
   --name=torrent \
@@ -217,7 +243,7 @@ docker run -d \
   -e TZ=Asia/Seoul \
   -e WEBUI_PORT=8888 \
   -e "VIRTUAL_HOST=[원하는 도메인 주소]" \
-  -e "VIRTUAL_PORT=8080" \
+  -e "VIRTUAL_PORT=8888" \
   -e "LETSENCRYPT_HOST=[원하는 도메인 주소]" \
   -e "LETSENCRYPT_EMAIL=[본인 이메일 주소]" \
   -p 8888:8888 \
@@ -228,6 +254,7 @@ docker run -d \
   --restart always \
   linuxserver/qbittorrent:latest
 ```
+![torrent 설치](imgs/ubuntu-install-torrent.png)
 
 ### 마인크래프트 서버 추가하기
 [**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다
