@@ -256,6 +256,10 @@ docker run -d \
 ```
 ![torrent 설치](imgs/ubuntu-install-torrent.png)
 
+#### WSL 내의 마운트 경로란?
+WSL 인스턴스 내에서 `/mnt/d/` 의 구조로 접근하게 되면 **D드라이브**에 접근 가능하다
+![WSL 마운트 경로](imgs/wsl-mount-path.png)
+
 ### 마인크래프트 서버 추가하기
 [**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다
 ```bash
