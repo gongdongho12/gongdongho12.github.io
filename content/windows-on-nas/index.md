@@ -261,7 +261,7 @@ WSL 인스턴스 내에서 `/mnt/d/` 의 구조로 접근하게 되면 **D드라
 ![WSL 마운트 경로](imgs/wsl-mount-path.png)
 
 ### 마인크래프트 서버 추가하기
-[**Qbitorrent 이미지**](https://hub.docker.com/r/linuxserver/qbittorrent)를 사용해서 올리겠습니다
+[**mincraft server 이미지**](https://hub.docker.com/r/itzg/minecraft-server)를 사용해서 올리겠습니다
 ```bash
 docker run -d -it --name mincraft \
   -v [원하는 WSL 내 config 경로]:/data \
