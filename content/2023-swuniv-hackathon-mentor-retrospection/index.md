@@ -8,7 +8,7 @@ categories: 해커톤 SW중심대학 멘토링 회고
 ---
 
 ## 참여 동기
-올해 2개의 해커톤인 ([코코톤](https://ivy-periodical-1dc.notion.site/8f571e47478346739e53a60a3d9735fb), [SPARCS 2023](https://festa.io/events/3006))에 참여하면서 해커톤 분위기를 즐길 수 있었는데 마침 딱 2월에 졸업을 하게 되어 SW중심대학 해커톤에는 참여할 수 없게 되었는데 😭  
+올해 2개의 해커톤인 ([코코톤](https://ivy-periodical-1dc.notion.site/8f571e47478346739e53a60a3d9735fb), [SPARCS 2023](https://festa.io/events/3006))에 참여하면서 해커톤 분위기를 즐길 수 있었는데 마침 딱 2월에 졸업을 하게 되어 [SW중심대학 해커톤 2023](https://www.swuniv.kr/56/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=15247030&t=board)에는 참여할 수 없게 되었는데 😭  
 그런 슬픔도 잠시 스프러너에서 해커톤 멘토링 요청 메일을 받게 되었고 해커톤 분위기를 다시 한번 느껴볼 수 있겠구나 라는 생각을 하면서 답장을 보냈습니다
 
 ![멘토링 기회](imgs/invite.png)
